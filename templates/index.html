@@ -3,19 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Proctoring System</title>
+    <link href="/static/index.css", rel="stylesheet">
 </head>
-<style>
-    .container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: 2px solid black;
-        border-radius: 10px;
-    }
-</style>
 <body>
-    <img class="container" src="{{ url_for('video_feed') }}"></img>
+    <div class="container">
+        <div class="wrapper">
+            <img id="videoStream" class="cell" src="{{url_for('video_feed')}}" alt="LIVE_STREAM">
+            <div class="controls">
+                <button id="startBtn" class="btn btn-start" style="display: none;">Start</button>
+                <button id="stopBtn" class="btn btn-stop">Stop</button>
+            </div>
+        </div>
+        <div class="wrapper"></div>
+        <div class="wrapper"></div>
+        <div class="wrapper"></div>
+        <div class="wrapper"></div>
+        <div class="wrapper"></div>
+    </div>
+
+    <script>
+        const videoStream = document.getElementById('videoStream');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const videoSrc = "{{url_for('video_feed')}}";
+
+        stopBtn.addEventListener('click', function() {
+            // Stop the stream by removing the src
+            videoStream.src = "";
+            videoStream.alt = "Stream Stopped";
+            stopBtn.style.display = 'none';
+            startBtn.style.display = 'inline-block';
+        });
+
+        startBtn.addEventListener('click', function() {
+            // Restart the stream by setting the src again
+            videoStream.src = videoSrc;
+            videoStream.alt = "LIVE_STREAM";
+            startBtn.style.display = 'none';
+            stopBtn.style.display = 'inline-block';
+        });
+    </script>
 </body>
 </html>
